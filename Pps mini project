@@ -1,0 +1,80 @@
+
+
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+// Define the structure for an e-book
+struct EBook {
+    char title[100];
+    char author[50];
+    float price;
+};
+
+// Function to display book details
+void displayBook(struct EBook book) {
+    printf("Title: %s\nAuthor: %s\nPrice: $%.2f\n", book.title, book.author, book.price);
+}
+
+int main() {
+    struct EBook books[5]; // Creating space for 5 e-books
+
+    // Adding sample e-books
+    strcpy(books[0].title, "Book 1 Title");
+    strcpy(books[0].author, "Author 1");
+    books[0].price = 9.99;
+
+    strcpy(books[1].title, "Book 2 Title");
+    strcpy(books[1].author, "Author 2");
+    books[1].price = 14.99;
+
+    strcpy(books[2].title, "Book 3 Title");
+    strcpy(books[2].author, "Author 3");
+    books[2].price = 19.99;
+
+    // ... (Adding more books if needed)
+
+    // Display available books
+    printf("Available Books:\n");
+    for (int i = 0; i < 3; i++) {
+        printf("Book %d:\n", i + 1);
+        displayBook(books[i]);
+        printf("\n");
+    }
+
+    // Shopping Cart (array to store indexes of selected books)
+    int cart[5] = {-1, -1, -1, -1, -1}; // Initializing with -1 to indicate empty slots
+    int cartSize = 0;
+
+    // Add books to the cart
+    int choice;
+    do {
+        printf("Enter the book number to add to cart (0 to stop): ");
+        scanf("%d", &choice);
+
+        if (choice >= 1 && choice <= 5) {
+            cart[cartSize] = choice - 1;
+            cartSize++;
+            printf("Book added to cart!\n");
+        } else if (choice != 0) {
+            printf("Invalid book number!\n");
+        }
+    } while (choice != 0);
+
+    // Display cart contents
+    if (cartSize > 0) {
+        float total = 0;
+        printf("\nItems in Cart:\n");
+        for (int i = 0; i < cartSize; i++) {
+            printf("Book %d:\n", cart[i] + 1);
+            displayBook(books[cart[i]]);
+            total += books[cart[i]].price;
+            printf("\n");
+        }
+        printf("Total: $%.2f\n", total);
+    } else {
+        printf("\nCart is empty.\n");
+    }
+
+    return 0;
+}
